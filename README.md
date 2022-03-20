@@ -1,2 +1,2 @@
 # elixir_phoenix_bootcamp
-Notes and snippets from The Complete Elixir and Phoenix Bootcamp on Udemy
+This repo tracks notes and snippets (examples and exercises), scratches (my ruminations on the material), and notes from The Complete Elixir and Phoenix Bootcamp on Udemy.
