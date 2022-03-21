@@ -280,3 +280,11 @@ Finally, you may want to give the developers reading your docs a small example o
       ["Aces of Spades"]
   """
 ```
+
+## More Data Structures: Maps and Keyword Lists
+### Maps
+
+### Keyword Lists
+
+## Conclusion
+That's it for our introduction to Elixir. It's enough to get started writing code, but make sure to check out the other notes, such as `pattern_matching.md` and especially `testing.md`.
