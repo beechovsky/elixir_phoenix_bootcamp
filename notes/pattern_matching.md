@@ -1,17 +1,17 @@
 # Pattern Matching
-Pattern Mathcing is Elixir's replacement fro variable assignment.
+Pattern Matching is Elixir's replacement for variable assignment.
 
 Wait? Didn't we assign variables already? Like:
 `deck = Cards.create_deck`
 
-Yes, but we were actually using pattern matching. In simple cases the difference is subtle.
+Yes, but we were actually using Pattern Matching. In simple cases the difference is subtle.
 
-For an example, let's consider the `deal` method from the Cards module we're working on. The split method we're using from the Enum module returns a tuple containing two elements; the "hand", the elements parsed off of the original collection, and the "deck" the remaining collection. If we wish to access those elements individually, we need to assign that return value to a properly defined, matching data structure.
+For an example, let's consider the `deal` method from the Cards module we're working on. The split method we're using from the `Enum` module returns a tuple containing two elements; the "hand", the elements parsed off of the original collection, and the "deck" the remaining collection. If we wish to access those elements individually, we need to assign that return value to a properly defined, *matching* data structure.
 For example:
 
 `{ hand, rest_of_deck } = Cards.deal(deck, 5)`
 
-Aha! We now have a named element we can refer to for each part of the tuple.
+Aha! We now have a named element we can refer to for each part of the tuple. Here's a longer example:
 ```
 iex(1)> recompile
 Compiling 1 file (.ex)
@@ -39,7 +39,7 @@ iex(5)> rest_of_deck
  "Three of Diamonds", "Four of Diamonds", "Five of Diamonds"]
 ```
 
-Elixir looks at the return values of things on the right, and comapres it to what it sees on the left. If the data structure and/or number of elements on the left match return values, the assignment is made. Let's try another example.
+Elixir looks at the return values of things on the right, and compares it to what it sees on the left. If the data structure and/or number of elements on the left match return values, the assignment is made. Let's try another example.
 
 Let's say you had a simple list with one element. How would you assign a variable to the element, and not the whole list?
 ```
@@ -75,13 +75,15 @@ Elixir finds the structure on the left doesn't match, so it throws an error and 
 Consider the following:
 `["red", color] = ["red", "blue"]`
 
-Elixir will evaluate this and, since the first elements match, continue to attempt to match the second elements, which it can do. It assigns the value of "blue" to the variable `color`.
+Elixir will evaluate this and, since the first elements match, continue to attempt to match the second elements, which it can do beacuse it considers `color` a variable. It assigns the value of "blue" to the variable `color`.
 
 What about this:
 `["red", color] = ["green", "blue"]`
 Nope!
-Elixir will return the follwing error:
+Elixir will return the following error:
 `** (MatchError) no match of right hand side value: ["green", "blue"]`
 
 Pretty clear what happened there - comparing the first elements of each array, Elixir could not make a match. The entire assignment fails.
 
+We could easily fall into PhD thesis territory regarding Pattern Matching, but instead will simply link the docs:
+https://elixir-lang.org/getting-started/pattern-matching.html

@@ -13,7 +13,7 @@ defmodule Cards do
 
     # How do we pair each number with each suit?
     # Naively, we could do nested iteration/loops.
-    # Elixir employs list comprehensions like so
+    # Elixir employs list comprehensions like so:
     # for suit <- suits do
     #   suit
     # end
@@ -27,11 +27,11 @@ defmodule Cards do
     #   end
     # end
 
-    # That created a list of lists of strings, one string for each value.
+    # That created a list of lists of strings; one string for each value.
     # We want a single list of strings.
     # Let's take a look at the Elixir Standard Library again.
     # Specifically, the List module. Lists in Elixir are Linked Lists, BTW.
-    # We can use List.flatten() to make the output form the loop above a sinlge list.
+    # We can use List.flatten() to make the output from the loop above a sinlge list.
     # cards = for value <- values do
     #   for suit <- suits do
     #     "#{value} of #{suit}" # string interpolation
@@ -41,7 +41,7 @@ defmodule Cards do
     # List.flatten(cards)
 
     # But, don't do that either.
-    # We can remove the need for the inner comprehension and the processing of List.flatten.
+    # We can remove the need for the inner comprehension and the processing of List.flatten:
     for suit <- suits, value <- values do
       "#{value} of #{suit}"
     end
@@ -51,7 +51,7 @@ defmodule Cards do
     Enum.shuffle(deck) # there's a module and method for that!
   end
 
-  def contains?(deck, card) do # ? is a note for devs to indicates this method returns a boolean
+  def contains?(deck, card) do # '?' is a note for devs to indicate this method returns a boolean.
     Enum.member?(deck, card)
   end
 
@@ -69,21 +69,15 @@ defmodule Cards do
   """
   def deal(deck, hand_size) do
     # Let's try Enum.split()
-    Enum.split(deck, hand_size) # { hand, remaining deck}
+    Enum.split(deck, hand_size) # returns { hand, remaining deck }
 
     # Interesting. We get two lists enclosed in {}.
-    # This is a tuple, which we should have expected after looking at Enum.split() in the documentation.
-    # Tuples are like arrays, but can contain heterogenous types,
-    # and the order of the elements conveys some meaning.
-
-    # Okay, but what if we want just the hand and not the entire tuple?
-    # Index access methods you may be used to like tuple[0] won't work.
-
+    # This is a Tuple, which we should have expected after looking at Enum.split() in the documentation.
   end
 
   # Let's write a method to save the state of the deck to the filesystem.
   # The Standard Library contains everyting we need to interact with the filesystem.
-  # Also, we can call underlying Erlang code directly, too, and in fact the Elixir libraries leave some things out that are easily accessed in Eralng.
+  # Also, we can call underlying Erlang code directly, too, and in fact the Elixir libraries leave some things out that are easily accessed in Erlang.
   def save(deck, file_name) do
     # Let's convert the deck object to something we can write to filesystem
     binary = :erlang.term_to_binary(deck)
@@ -97,14 +91,14 @@ defmodule Cards do
   # We get a tuple containing as one of its values a list of integers representing our data.
   # To get to that data, we're going to use pattern matching.
   # def load(file_name) do
-  #   {status, binary} = File.read(file_name) # Leverage File module
+  #   {status, binary} = File.read(file_name) # Leverage File module & pattern matching
   #   :erlang.binary_to_term(binary) # leverage underlying Erlang
   # end
 
-  # The method above is fine, but what if we try to open a file that doesnt exist?
+  # The method above is fine, but what if we try to open a file that doesn't exist?
   # We need some error handling.
   # We'll use the first, "status" element of the tuple returned from File.read().
-  # Naively, you may want to use a condtitional (if) statement, but pattern matching gives us a better way.
+  # Naively, you may want to use an "if" statement, but pattern matching gives us a better way.
   # def load(file_name) do
   #   {status, binary} = File.read(file_name)
 
@@ -115,25 +109,26 @@ defmodule Cards do
   # end
 
   # OK, that's much better. However, we can still improve our error handling.
-  # We can streamline this code further by better harnessing the power of patten mathcing.
+  # We can streamline this code further by better harnessing the power of patten matching.
   def load(file_name) do
     case File.read(file_name) do
       # Comparison and assignment in one line!
       {:ok, binary} -> :erlang.binary_to_term(binary)
-      {:error, reason} -> "Can't find file '#{file_name}'. #{reason}"
-      # Note: If we don't use reason, or any other variable declared in function scope, we'll get a warning from the compiler.
+      {:error, _reason} -> "Can't find file '#{file_name}'."
+      # Wait - what's thet underscore doing before reason?
+      # If we don't use reason, or any other variable declared in function scope, we'll get a warning from the compiler.
       # We don't have to use it though, if we don't want to.
-      # We do need to leave it in the lefthand expression for correct pattern mathcing.
-      # So, we can prepend an underscore to the variable, like so: _reason
-      # TODO: Update the method to use underscore and rewrite this note.
+      # We do need to leave it in the lefthand expression for correct pattern matching.
+      # So, we can prepend an underscore to the variable, like so: _reason, and teh compiler knows we aren't using it.
     end
   end
 
   # This is a good start!
-  # However, after some feedback, we realize everyone runs the same 3 commands in a ro every time:
+  # However, after some feedback, we realize everyone runs the same 3 commands in a row every time:
   # create_deck > shuffle > deal
   # Let's add a method to do all of these at once.
   # How do we chain method calls?
+  # Naively, the following would work:
   # def create_hand(hand_size) do
   #   deck = Cards.create_deck
   #   deck = Cards.shuffle(deck)
@@ -146,7 +141,7 @@ defmodule Cards do
     |> Cards.shuffle
     |> Cards.deal(hand_size)
     # |> is the Pipe Operator.
-    # Look at the method arguments - Elixir is automatically injecting the return values as arguments!
+    # Look at the method arguments - Elixir is automatically injecting the return values as the first arguments!
     # This means the Pipe Operator demands consistent first arguments.
   end
 end
