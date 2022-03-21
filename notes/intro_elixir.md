@@ -283,8 +283,130 @@ Finally, you may want to give the developers reading your docs a small example o
 
 ## More Data Structures: Maps and Keyword Lists
 ### Maps
+Maps are collection of key: value pairs, like Ruby hashes and Python dictionaries. They are created with the following syntax:
+
+`color = %{favorite: blue}`
+
+Map elements can be accessed via dot notation:
+```
+iex> colors.favorite
+"blue"
+```
+
+Maps work very well with Pattern Matching. We can extract data from existing Maps using Pattern Matching like so:
+```
+iex> colors = %{first: "blue", second: "yellow"}
+%{first: "blue", second: "yellow"}
+iex> %{second: secondary_color} = colors
+%{first: "blue", second: "yellow"}
+iex> secondary_color
+"yellow"
+```
+
+Elixir first recognized the top-level datatypes matched on both sides, then found a matching `second` field in both Maps. Finally, it recognized `secondary_color` as a variable, and thus populated it with the value of `second` from the original Map on the right.
+
+NOTE: While creating and reading from Maps follows lots of exisiting patterns, *updating* Maps is more complicated.
+
+Let's try to update a value inside a Map using dot syntax:
+```
+iex(9)> colors = %{first: "blue"}
+%{first: "blue"}
+iex(10)> colors.first = "red"
+** (CompileError) iex:10: cannot invoke remote function colors.first/0 inside a match
+```
+Nope! Recall: Data is immutable in Elixir. Every data structure we ever create, we do not change. Instead, we have to create a new map containing the updated value.
+
+#### Two ways to update a Map
+We can use a function, or a nifty bit of syntax, to update Maps.
+
+Let's look at functions first. You guessed it - there's a Map module with methods for working with Maps. For updating, we can use the `put` method.
+```
+iex(10)> Map.put(colors, :first, "red")
+%{first: "red"}
+iex(11)> colors
+%{first: "blue"}
+```
+That's right - `Maps.put()` returned a new map. `colors` was unaffected. Note: we used an *atom* to refer to the map field we're assigning a new value to.
+
+Let's try the syntax-based update next:
+```
+iex(12)> colors
+%{first: "blue"}
+iex(13)> %{ colors | first: "red" }
+%{first: "red"}
+iex(14)> colors
+%{first: "blue"}
+```
+
+As we expected, this returned a new map with the new key:value pair.
+
+NOTE: This way of updating Maps can only be used when we are updating an existing property. We cannot use it to add a property.
+
+See doc:
+https://hexdocs.pm/elixir/1.12/Map.html
 
 ### Keyword Lists
+*Keyword Lists* merge the concepts of Lists (arrays of arbitrary length) and Tuples (collection where the order has special meaning) together. They also resemble Maps in construction.
+```
+colors = [{:first, "red"}, {:second, "blue"}]
+```
+
+Yup; that looks like a list of Maps, with Atoms as keys.
+
+Let's see how to access one fo those values.
+```
+iex(1)> colors = [{:first, "red"}, {:second, "blue"}]
+[first: "red", second: "blue"]
+iex(2)> colors[:first]
+"red"
+```
+
+It's important to note that in Elixir, the list elements are still considered Tuples.
+
+Let's make things weird. You can also define a Keyword List exactly as it is dispalyed in the output above:
+```
+iex(3)> colors = [first: "blue", second: "red"]
+[first: "blue", second: "red"]
+```
+*insert mind_blown.gif*
+
+#### Where would we use Keyword Lists?
+Consider Maps: we can only collect one property type per Map.
+```
+iex(4)> colors = %{first: "red", first: "blue"}
+warning: key :first will be overridden in map
+  iex:4
+
+%{first: "blue"}
+```
+
+With a Keywaord list, we can make the same key as many times as we want and they won't be overwritten.
+```
+iex(5)> colors = [first: "red", first: "blue"]
+[first: "red", first: "blue"]
+```
+OK, but why would we need two items with the same key?
+The best example of using Keyword Lists is the *Ecto* library, used for working with Databases. We'll see more on that later, but for now, let's pretend we're making a query to a database full of users.
+
+```
+query = User.find_where([where: user.age > 10, where: user.subscribed == true])
+```
+
+Ah! So we can pass  mulitple where clause query parameters.
+
+Recall: There's a shortcut where we remove the braces representing interior tuples. There's another shortcut: If we pass a Keyword List to a function, as the last argument, we can also remove the square brackets.
+```
+query = User.find_where(where: user.age > 10, where: user.subscribed == true)
+```
+This looks like two separate arguments, but under the hood this is still a single Keyword List.
+
+You can also remove the parentheses from function calls, in general, so this could look like this:
+```
+query = User.find_where where: user.age > 10, where: user.subscribed == true
+```
+
+See doc:
+https://elixir-lang.org/getting-started/keywords-and-maps.html#keyword-lists
 
 ## Conclusion
 That's it for our introduction to Elixir. It's enough to get started writing code, but make sure to check out the other notes, such as `pattern_matching.md` and especially `testing.md`.
