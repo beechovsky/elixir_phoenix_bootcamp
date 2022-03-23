@@ -24,3 +24,18 @@ Phoenix is a web framework for Elixir. You can read more on the official site, s
 
 Phoenix commonly employs a database to persist user data. Everything in Phoenix is essentially a layer that takes user requests in the form of HTML, JSON, or websockets, looks into a database, and responds via HTML, JSON, or Websockets.
 
+Phoenix is LARGE, and covers loads of web functionality. To that end, this section of notes will contain some refresher/recursing over doing things in the web in general.
+
+## Example Project: Discuss
+Discuss shall be a sort of forum, where users log in and create topics and comment on the comments of others.
+
+### Planning
+Requirements:
+Authentication: OAuth via Github
+Users shall see a list of topics upon login, and also a button to create a new topic.
+Clicking the Create button takes th euser to a view where they can create a topic.
+If a user created a topic, they have functionality to edit or delete that topic.
+Users can only create topics/comments when signed in.
+
+**NOTE:** This will be code-heavy, so further notes and comments will be in the code.
+
