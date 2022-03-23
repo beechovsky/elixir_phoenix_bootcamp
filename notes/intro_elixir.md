@@ -409,5 +409,41 @@ query = User.find_where where: user.age > 10, where: user.subscribed == true
 See doc:
 https://elixir-lang.org/getting-started/keywords-and-maps.html#keyword-lists
 
+## Structs
+Now that we've covered Maps and Keyword Lists, we can look at another incredibly helfpul data structure: *Structs*.
+
+From the docs:
+*"Structs are extensions built on top of maps that provide compile-time checks and default values."*
+https://elixir-lang.org/getting-started/structs.html
+
+Structs are bossed-up Maps used to store data in an Elxir app.
+They are like Maps but have two big advantages over Maps:
+- They can be assigned default values
+- They have additional compile-time property checking
+
+Why would we use a Struct over a Map?
+
+Structs enfore that the only properties that can exist in our Struct map are those defined in our file describing it. Recall: you can stuff anything into Maps typically.
+
+You may be tempted to add methods for operating on your Struct inside the struct code. Nope - remember this is functional programming. We are simply adding properties to the data structure.
+
+We COULD use a Map for the Identicon project, but, by convention, if we know the properties we're going to be using, we use a Struct.
+
+Structs must be declared inside of Modules, like so (spoiler alert):
+```
+defmodule Identicon.Image do
+  @moduledoc """
+    This module defines our Struct for containing the various bits of data we need.
+    Accessed via %Identicon.Image{}
+  """
+
+  defstruct hex: nil, color: nil, grid: nil, pixel_map: nil
+end
+```
+
+Look at that, left of the `defstruct` keyword - it's a Keyword List!
+
+To see how to operate on Structs, specifically using Pattern Matching, check out the Identicon project code, and the `pattern_matching.md` notes.
+
 ## Conclusion
 That's it for our introduction to Elixir. It's enough to get started writing code, but make sure to check out the other notes, such as `pattern_matching.md` and especially `testing.md`.

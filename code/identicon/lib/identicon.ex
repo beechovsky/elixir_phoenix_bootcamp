@@ -1,45 +1,7 @@
 defmodule Identicon do
   @moduledoc """
   Documentation for `Identicon`.
-  Identicons are a 5x5 grid of squares, each 50px a side.
-  Requirements:
-  - each identicon shall not be randomly generated
-  - each identicon shall be generated based on string input.
 
-  https://en.wikipedia.org/wiki/Identicon
-
-  (Very General) Flow: String -> Identicon -> Image
-  Detailed Flow:
-  String ->
-    Compute MD5 Hash of String ->
-      List of numbers based on String ->
-        Pick color ->
-          Build grid ->
-            Convert Grid to Image ->
-              Save Image
-
-
-  You may have noticed the numbers we're receiving are limited to 255,
-  so we can use RGB values to determine color! We'll simply pick the first 3 numbers.
-
-  For the grid, imagine a series of lists with indices mirrored about he center:
-  1  2  3  2  1
-  4  5  6  5  4
-  7  8  9  8  7
-  10 11 12 11 10
-  13 14 15 14 13
-
-  Now, imagine we're simply mapping the indices of the number array we generated to the positions in the grid indices.
-  Now, we'll decide that if a index value is even, we'll color that square.
-
-  At this point, we're keeping track of several bits of data: a string, a list of numbers, RGB data, etc.
-  We need an efficient way to store and keep track of these items.
-
-  Elixir has a data structure perfect for this: Struct.
-  Structs are Maps used to store data in an Elxir app.
-  They are like Maps but have two big advantages over Maps:
-  - They can be assigned default values
-  - They have additional compile-time property checking
   """
 
   @doc """
