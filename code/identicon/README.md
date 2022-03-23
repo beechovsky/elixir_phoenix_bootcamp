@@ -1,6 +1,8 @@
 # Identicon
 
-**TODO: Add description**
+This project will generate idencticons.
+
+https://en.wikipedia.org/wiki/Identicon
 
 ## Installation
 
