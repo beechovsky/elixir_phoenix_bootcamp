@@ -17,6 +17,10 @@ defmodule DiscussWeb.Router do
   scope "/", DiscussWeb do
     pipe_through :browser
 
+    # TODO: Move this to notes.
+    # This is the route for the main page at localhost:4000 ("/" is implied as root for webapps).
+    # The router gets our request at localhost:4000, which it considers as "/", and looks for rules as to what to do with that request.
+    # Here we see it routes to request the Page Controller, specifically the index action.
     get "/", PageController, :index
   end
 
