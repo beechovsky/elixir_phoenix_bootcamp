@@ -18,18 +18,27 @@ https://github.com/asdf-vm/asdf-elixir
 
 https://www.cogini.com/blog/using-asdf-with-elixir-and-phoenix/
 
-## IEX
-Before we jump into writing code, it's important to know how to run what we write.
+## Running Elixir
+Before we jump into writing code, it's important to know how to run what we write. There are generally two ways: creating files with the `.exs` extension and running them by invoking `elixir` in the command line, or by using IEx, an interactive Elixir REPL invoked from the command line.
 
-IEX is an interactive Elixir REPL invoked from the command line.
+### Using `elixir`
+For instance, we could create a file named `example.exs` and add some simple code, like `IO.puts("Hello!")`. Save it and in your terminal run `elixir example.exs` and you'll see the printed output.
 
-To compile a project to have access to the module's methods in the shell, start IEX using:
+### Using IEx
+Simply type `iex` into your terminal to open the REPL. You should see the following prompt if Elixir is installed correctly: `iex(1)>`. You can run any Elxir expression in IEx, including multiline expressions. If you start a function, for instnace, and hit enter, IEx will look for the rest of the function, and the prompt will show ellipses instead, like so:
+```
+iex(5)> spawn_link(fn ->
+...(5)> send(current_process, {:hello, "hello world"})
+...(5)> end)
+```
+
+If working inside an Elixir project, you can compile a project to have access to the module's methods in the shell by starting IEx using:
 
 `iex -S mix`
 
 To update the shell after making changes, simply run `recompile`.
 
-That's enough about IEX for now. To see more:
+That's enough about IEx for now. To see more:
 https://hexdocs.pm/iex/1.13/IEx.html
 
 ## Example Project
@@ -45,7 +54,7 @@ Usage:
 
 This creates a project, which is simply a directory structure containing the bare minimum to get stared, the most important of which is the project's core *Module*.
 
-Create the Cards project and run IEX from within `/path/to/cards/` to interact with the project and default `hello` method like so:
+Create the Cards project and run IEx from within `/path/to/cards/` to interact with the project and default `hello` method like so:
 
 ```
 iex(1)> Cards
