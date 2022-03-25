@@ -1,5 +1,5 @@
 # Elixir Warmup
-This document covers some foundational, essential Elixir knowledge to help get started.
+This document covers some foundational, essential Elixir knowledge to help get started. It jumps around bit, as it is focused on getting startedon a project immediately.
 
 ## Help, Resources, Community
 ### Bootcamp Official Repo
@@ -25,7 +25,9 @@ Before we jump into writing code, it's important to know how to run what we writ
 For instance, we could create a file named `example.exs` and add some simple code, like `IO.puts("Hello!")`. Save it and in your terminal run `elixir example.exs` and you'll see the printed output.
 
 ### Using IEx
-Simply type `iex` into your terminal to open the REPL. You should see the following prompt if Elixir is installed correctly: `iex(1)>`. You can run any Elxir expression in IEx, including multiline expressions. If you start a function, for instnace, and hit enter, IEx will look for the rest of the function, and the prompt will show ellipses instead, like so:
+Simply type `iex` into your terminal to open the REPL. You should see the following prompt if Elixir is installed correctly: `iex(1)>`.
+
+You can run any Elixir expression in IEx, including multiline expressions. If you start a function, for instnace, and hit enter, IEx will look for the rest of the function, and the prompt will show ellipses instead, like so:
 ```
 iex(5)> spawn_link(fn ->
 ...(5)> send(current_process, {:hello, "hello world"})
@@ -37,6 +39,15 @@ If working inside an Elixir project, you can compile a project to have access to
 `iex -S mix`
 
 To update the shell after making changes, simply run `recompile`.
+
+You can also compile the sample file above *in IEx* by using `c` helper in the shell:
+```
+iex(1)> c "example.exs"
+Hello!
+[]
+```
+
+Note the name of file to be compiled is passed as a string, and there's a list in the outpot. That list would contain ant modules included in your compiled code.
 
 That's enough about IEx for now. To see more:
 https://hexdocs.pm/iex/1.13/IEx.html
@@ -62,17 +73,6 @@ Cards
 iex(2)> Cards.hello
 :world
 ```
-
-## Modules and Methods
-Code we write in Elixir is organized into Modules. Modules are collections of methods or functions, created with the following signature:
-
-```
-defmodule <Module Name> do
-  ...
-end
-```
-
-**NOTE:** In Elixir, favor delegating to exisiting modules wherever possible over writing new code. Always peruse the documentation before deciding to roll your own. Of course, if exisitng solutions are insufficient, go for it.
 
 ## Creating Lists and Strings
 In order to get rolling on the project, let's take a quick look at these basic data types.
@@ -171,8 +171,11 @@ See doc:
 https://hexdocs.pm/elixir/Tuple.html
 
 ### Accessing the Elements of a Tuple
-What if we wanted to return only the hand, the first element of the tuple returned from our deal method? Naively, you may try index access common to collections in other languages, such as `my_tuple[0]`.
-You'll be met with an error message, as that won't work for tuples. How, exactly, to access the elements of a tuple brings us to one of the fundamental, and most powerful, features of Elixir: *Pattern Matching*. This is a big topic so that is covered in another set of notes; see `pattern_matching.md`.
+What if we wanted to return only the hand, the first element of the tuple returned from our deal method?
+
+Naively, you may try index access common to collections in other languages, such as `my_tuple[0]`. You'll be met with an error message, as that won't work for tuples.
+
+How, exactly, to access the elements of a tuple brings us to one of the fundamental, and most powerful, features of Elixir: *Pattern Matching*. This is a big topic so that is covered in another set of notes; see `pattern_matching.md`.
 
 ## Elixir and Erlang
 You may already know Elixir is built upon Erlang, another programming language created decades earlier for telecommunications. Elixir code isn't even excuted as Exilir code! It is fed to the Elixir runtime, then transpiled to Erlang before being compiled and executed by the BEAM.
